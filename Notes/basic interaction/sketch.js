@@ -74,6 +74,8 @@ function draw() {
 
   }else{
     backgroundColor ="green";
+
+
 }
 
     if(keyCode == 65){
