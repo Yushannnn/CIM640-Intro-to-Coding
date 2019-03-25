@@ -1,44 +1,36 @@
-//var currentWidth = width; will not work outside of p5 functions
-//var currentHeight = height;
 
-//Global variables are available everywhere
-var backgroundColor = "white";
-var eyePosX = 0;
-var eyePosY = 0;
-var eyeOffset = 20;
-var eyeSize = 20;
-var instruction = "Don't cross the line!";
+  //if(airplaneLocationX[i] > width/2 ){
+   //birdStart = true;
+//  }
 
-function setup() {
-  // put setup code here
+
+
+//if(birdStart == true){
+//bird code here
+for(var x = 0; x < birdAmount; x++){
+ image(bird,birdLocationX[x], birdLocationY[x],180,bird.width/10,bird.height/10)
+ birdLocationY[x] = birdLocationY[x] + 1
+ if(birdLocationY[x] > height ){
+  birdLocationY[x] = random(0, width/3);
+  birdLocationX[x] = random(0, -500);
+
+  if(birdLocationY[x] > height/2){
+    airplaneStart = true;
+  }
 }
-createCanvas(500,500);
-
-
-
-function draw() {
-  // put drawing code here
-  background(backgroundColor);
-  text(instruction,20,20);
-
 }
 
 
-
-
-
-function keyPressed(){
-  console.log("letter: "+ key + "keycode: "+ keyCode)
-  if(key == "a"){
-    console.log("the letter is a");
-
-  if(keyCode == "r"){
-    background(prop);
+if(airplaneStart == true){
+  for(var i = 0; i < airplaneAmount; i++){
+  image(airplane, airplaneLocationX[i], airplaneLocationY[i], airplane.width/12, airplane.height/12);
+    airplaneLocationX[i] = airplaneLocationX[i] + 1
+  if(airplaneLocationX[i] > width ){
+    airplaneLocationY[i] = random(0, -500);
+    airplaneLocationX[i] = random(0, height/3);
   }
-
-function keyCode(){
-
-
+ }
+}
 
 
 
@@ -47,14 +39,32 @@ function keyCode(){
 
 
 
-  function keyPressed(){
-    console.log("letter: "+ key + "keycode: "+ keyCode)
-    if(key == "a"){
-      console.log("the letter is a");
-      }
-    else if (key == "r"){
-      backgroundColor = "red";
-    }else if(key === "p"){
-      backgroundColor = "pink";
-    }
+
+
+if(birdStart == true){
+//bird code here
+for(var x = 0; x < birdAmount; x++){
+ image(bird,birdLocationX[x], birdLocationY[x],180,bird.width/10,bird.height/10)
+ birdLocationY[x] = birdLocationY[x] + 1
+ if(birdLocationY[x] > height ){
+  birdLocationY[x] = random(0, width/3);
+  birdLocationX[x] = random(0, -500);
+
+  if(birdLocationY[x] > height/2){
+    airplaneStart = true;
   }
+}
+}
+}
+
+
+if(airplaneStart == true){
+  for(var i = 0; i < airplaneAmount; i++){
+  image(airplane, airplaneLocationX[i], airplaneLocationY[i], airplane.width/12, airplane.height/12);
+    airplaneLocationX[i] = airplaneLocationX[i] + 1
+  if(airplaneLocationX[i] > width ){
+    airplaneLocationY[i] = random(0, -500);
+    airplaneLocationX[i] = random(0, height/3);
+  }
+ }
+}

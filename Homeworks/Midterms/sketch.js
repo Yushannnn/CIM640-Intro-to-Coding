@@ -12,7 +12,7 @@ var mustcheY = 110;
 var handPosX = 90;
 var handPosY = 200;
 var handSize = 65;
-var instruction = "Know more about Doraemon?";
+var instruction = "Know more about Doraemon?                                       Click the button to start";
 var bgColor = "pink";
 
 
@@ -32,7 +32,7 @@ var answerCorrect = " ";
 var answer = 1;
 var answers = 3;
 
-var dorami, giant, shizuka, nobita, cloud, copter, airplane, bird, doraemonfly, nobitafly ;
+var dorami, giant, shizuka, nobita, cloud, copter, airplane, bird, doraemonfly, nobitafly;
 
 var cloud
 var cloudLocationX = [];
@@ -41,10 +41,18 @@ var cloudAmount = 4;
 
 var airplaneLocationX = [];
 var airplaneLocationY = [];
-var airplaneAmount = 2;
+var airplaneAmount = 4;
 
+var birdLocationX = [];
+var birdLocationY = [];
+var birdAmount = 6;
+
+var airplaneStart = false;
 var birdStart = false;
 
+var buildingLocationX = [];
+var buildingLocationY = [];
+var buildingAmount = 1;
 
 function preload (){
   dorami = loadImage("assets/dorami.png");
@@ -58,6 +66,7 @@ function preload (){
 
   doraemonfly = loadImage("assets/doraemonfly.png");
   nobitafly = loadImage("assets/nobitafly.png");
+  building = loadImage("assets/building.png");
 }
 
 function setup() {
@@ -65,7 +74,7 @@ function setup() {
   createCanvas(600,500);
 
   button1 = createButton("Page 1");
-  button1.position(450,100);
+  button1.position(500,100);
   button1.mousePressed(function(){
     currentPage =1;
     currentOption = -1;
@@ -73,7 +82,7 @@ function setup() {
   });
 
   button2 = createButton("Page 2");
-  button2.position(450,150);
+  button2.position(500,150);
   button2.mousePressed(function(){
     currentPage = 2;
     currentOption = -1;
@@ -81,7 +90,7 @@ function setup() {
   });
 
   button3 = createButton("Page 3");
-  button3.position(450,200);
+  button3.position(500,200);
   button3.mousePressed(function(){
     currentPage = 3;
     currentOption = -1;
@@ -125,7 +134,7 @@ function setup() {
     });
 
     reset= createButton("Restart");
-    reset.position(350,150);
+    reset.position(500,400);
     reset.mousePressed(function(){
       currentPage =1;
       });
@@ -148,9 +157,19 @@ function setup() {
       cloudLocationY[l] = random(-1000, 0);
     }
 
-    for(var i = 0; i < cloudAmount; i++){
+    for(var i = 0; i < airplaneAmount; i++){
       airplaneLocationX[i] = random(0, -500);
       airplaneLocationY[i] = random(0, height/3);
+    }
+
+    for(var x = 0; x < birdAmount; x++){
+      birdLocationX[x] = random(0, width/3);
+      birdLocationY[x] = random(0, 500);
+    }
+
+    for(var y = 0; y < buildingAmount; y++){
+      buildingLocationX[y] = random(0,width/3);
+      buildingLocationY[y] = random(50,700);
     }
 
 }
@@ -163,14 +182,13 @@ function draw() {
     button1.hide();
     button2.show();
     button3.show();
-
     buttonA.hide();
     buttonB.hide();
     buttonC.hide();
-
     button4.hide();
     button5.hide();
     button6.hide();
+    reset.hide();
 
     strokeWeight(5);
     background(bgColor);
@@ -355,41 +373,62 @@ if(currentOption != -1){
   button6.hide();
   reset.show();
 
+  for(var y = 0; y < buildingAmount; y++){
+  image(building,buildingLocationX[y],buildingLocationY[y],building.width/2.5,building.height/2.5);
+
+  buildingLocationY[y] = buildingLocationY[y] + 1
+  if(buildingLocationY[y] > height/2){
+   buildingLocationX[y] = (0,width/3);
+   buildingLocationY[y] = (50, 700);
+  }
+
+  if (buildingLocationX[y] > width/3){
+    birdStart = true
+  }
+  if(birdStart == true){
+  //bird code here
+  for(var x = 0; x < birdAmount; x++){
+   image(bird, birdLocationX[x], birdLocationY[x],bird.width/10,bird.height/10)
+   birdLocationX[x] = birdLocationX[x] + 1
+  if(birdLocationX[x] > width ){
+    birdLocationX[x] = random(0, 600);
+    birdLocationY[x] = random(0, height/3);
+
+  if(buildingLocationY[y] > heigh){
+      airplaneStart = true;
+    }
+  }
+  }
+  }
+
+
+    for(var i = 0; i < airplaneAmount; i++){
+    image(airplane, airplaneLocationX[i], airplaneLocationY[i], airplane.width/12, airplane.height/12);
+      airplaneLocationX[i] = airplaneLocationX[i] + 1
+    if(airplaneLocationX[i] > width ){
+      airplaneLocationX[i] = random(0, height/3);
+      airplaneLocationY[i] = random(0, -500);
+    }
+   }
+
 
   for(var l = 0; l < cloudAmount; l++){
   image(cloud,cloudLocationX[l],cloudLocationY[l],cloud.width/12,cloud.height/12);
 
   cloudLocationY[l] = cloudLocationY[l] + 1
   if(cloudLocationY[l] > height ){
-   cloudLocationY[l] = random(0, width);
    cloudLocationX[l] = random(-1000, 0);
+   cloudLocationY[l] = random(0, width);
   }
 }
 
-
-  for(var i = 0; i < airplaneAmount; i++){
-  image(airplane, airplaneLocationX[i], airplaneLocationY[i], airplane.width/12, airplane.height/12);
-
-  airplaneLocationX[i] = airplaneLocationX[i] + 1
-  if(airplaneLocationX[i] > width ){
-   airplaneLocationY[i] = random(0, 1000);
-   airplaneLocationX[i] = random(0, height);
-  }
-  if(airplaneLocationX[i] > width/2 ){
-   birdStart = true;
-  }
-}
-
-
+  //if(airplaneLocationX[i] > width/2 ){
+   //birdStart = true;
+//  }
 
 image(doraemonfly,280,30,doraemonfly.width/7, doraemonfly.height/7);
 image(nobitafly, 100,150, nobitafly.width/5, nobitafly.height/5);
 
-
-if(birdStart == true){
-//bird code here
 }
-
 }
-
 }
