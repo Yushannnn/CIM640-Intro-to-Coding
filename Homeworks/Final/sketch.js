@@ -2,7 +2,7 @@ var townMap, horse, flamingo, drongo, schoolbus, frog, street, farm, birdfly,far
     cat, dog, kid, rain, school;
 var button1, button2;
 //var Interfaces;
-var horseSound,busSound,flamingoSound,cowSound, frogSound;
+var horseSound,busSound,flamingoSound,cowSound,schoolSound;
 
 var busMove = 200;
 
@@ -14,10 +14,13 @@ var page0,page1,page2,page3,page4;
 
 var currentPage = 0;
 
+var streetpage = false;
+var farmpage= false ;
+
 function preload(){
  townMap = loadImage('assets/townmap.jpg');
  horse = loadImage('assets/horse.png');
- flamingo = loadImage('assets/flamingo.png');
+ //flamingo = loadImage('assets/flamingo.png');
  schoolbus = loadImage('assets/schoolbus.png');
  cow = loadImage('assets/cow.png');
  frog = loadImage('assets/frog.png');
@@ -26,16 +29,16 @@ function preload(){
  farmap = loadImage('assets/farmap.png');
  birdfly = loadImage('assets/birdfly.png');
  kid = loadImage('assets/kid.png');
- dog = loadImage('assets/dog.png');
- cat = loadImage('assets/cat.png');
- rain  = loadImage('assets/rain.png');
+ //dog = loadImage('assets/dog.png');
+ //cat = loadImage('assets/cat.png');
+ //rain  = loadImage('assets/rain.png');
  school = loadImage('assets/school.png');
 
  horseSound = loadSound('assets/horse.mp3');
  busSound = loadSound('assets/bus.mp3');
- flamingoSound = loadSound('assets/flamingo.mp3');
+ //flamingoSound = loadSound('assets/flamingo.mp3');
  cowSound = loadSound('assets/cow.mp3');
- frogSound = loadSound('assets/frog.mp3');
+ schoolSound = loadSound('assets/school.mp3');
 }
 
 function setup() {
@@ -44,12 +47,13 @@ function setup() {
   cnv.id("mycanvas");
   horseSound.setVolume(0.3);
   horseSound.play();
-  busSound.setVolume(0.3);
+  busSound.setVolume(0.1);
   busSound.play();
-  flamingoSound.setVolume(0.5);
-  flamingoSound.play();
+  //flamingoSound.setVolume(0.5);
+  //flamingoSound.play();
   cowSound.setVolume(0.8);
   cowSound.play();
+  schoolSound.play();
 
 
 
@@ -57,25 +61,29 @@ function setup() {
   farmButton.position(90,370);
   farmButton.mousePressed(function(){
     currentPage = 1;
+    farmpage = true;
+    streetpage = false;
   });
 
-  streetButton = createButton("To See Street");
+  streetButton = createButton("To Street");
   streetButton.position(300,370);
   streetButton.mousePressed(function(){
     currentPage = 2;
+    streetpage = true;
+    farmpage = false;
   });
 
   backButton = createButton("Back to Entry");
   backButton.position(400,500);
   backButton.mousePressed(function(){
     currentPage = 0;
+    farmpage = false;
+    streetpage = false;
   });
-
 
 // tempX, tempY, tempS, tempC,  tempName
 
 
-}
 
 function draw() {
   // put drawing code here
@@ -86,6 +94,7 @@ function draw() {
     streetButton.show();
     backButton.hide();
 
+
     fill(221,160,221);
     stroke(10);
     textSize(40);
@@ -95,22 +104,32 @@ function draw() {
     image(street,260,250,street.width/4,street. height/4);
     image(farm,70,240,farm.width/3,farm. height/3);
 
-   }else if(currentPage == 1){
+  }else if(currentPage == 1){
     //image(townMap,30,20,townMap.width/3,townMap.height/3);
     farmButton.hide();
     streetButton.hide();
     backButton.show();
 
+
     image(farmap,-220,-10,farmap.width*1.5,farmap.height*1.5);
     image(horse, 300,200,horse.width/10,horse.height/10);
-    image(flamingo, 50,350, flamingo.width/8,flamingo.height/8);
-    image(cow, 150,370, cow.width/12,cow.height/12);
+    //image(flamingo,50,350, flamingo.width/8,flamingo.height/8);
+    image(cow, 150,370,cow.width/12,cow.height/12);
     image(birdfly, mouseX,40, birdfly.width/9,birdfly.height/9);
+
+    cow.mousePressed (dist(mouseX,mousY,330,210)<15){
+      cowSound.play();
+    }else {
+      cowSound.stop();
+    }
+
+
 
   }else if(currentPage == 2){
     farmButton.hide();
     streetButton.hide();
     backButton.show();
+
     image(townMap,0,0,townMap.width/2.3,townMap.height/2.3);
     image(schoolbus, busMove,300,schoolbus.width/10,schoolbus.height/10);
     image(kid,160,kidMove,kid.width/8,kid.height/8);
@@ -129,30 +148,24 @@ function draw() {
   }
 
 function mousePressed(){
-  if(currentPage== 1){
-      if(dist(mouseX,mouseY,300,200) < 15){
+  if(farmpage == true){
+       if(dist(mouseX,mouseY,330,210)< 15){
       console.log("horse");
       horseSound.play();
-    }else{
-      horseSound.stop();
-    }
+      }else{
+       horseSound.stop();
+      }
 
-      if(dist(mouseX,mouseY,150,370) < 15){
+
+      if(dist(mouseX,mouseY,170,350) < 15){
       console.log("cow");
       cowSound.play();
-    }else{
-      cowSound.stop();
-    }
-
-    if(dist(mouseX,mouseY, 50,350) < 15){
-      console.log("flamingo");
-      flamingoSound.play();
-    }else{
-      flamingoSound.stop();
-    }
+     }else{
+       cowSound.stop();
+     }
 
 
-  }else if(currentPage == 2){
+  }else if(streetpage == true){
     if(dist(mouseX,mouseY,busMove,370) < 15){
       console.log("schoolbus");
       busSound.play();
@@ -160,16 +173,17 @@ function mousePressed(){
       busSound.stop();
     }
 
-
-  if(dist(mouseX,mouseY, 150,370) < 30){
-    console.log("kid");
-    kidSound.play();
-  }else{
-    kidSound.stop();
+   if(dist(mouseX,mouseY,80,260) < 30){
+    console.log("school");
+    schoolSound.play();
+   }else{
+    schoolSound.stop();
   }
 
   }
 
+
+}
 
 }
 
