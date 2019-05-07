@@ -2,7 +2,7 @@ var townMap, horse, flamingo, drongo, schoolbus, frog, street, farm, birdfly,far
     cat, dog, kid, rain, school;
 var button1, button2;
 //var Interfaces;
-var horseSound,busSound,flamingoSound,cowSound,schoolSound;
+var horseSound,busSound,flamingoSound,cowSound,schoolSound,birdSound, kidSound;
 
 var busMove = 200;
 
@@ -32,28 +32,34 @@ function preload(){
  //dog = loadImage('assets/dog.png');
  //cat = loadImage('assets/cat.png');
  //rain  = loadImage('assets/rain.png');
+
  school = loadImage('assets/school.png');
 
- horseSound = loadSound('assets/horse.mp3');
- busSound = loadSound('assets/bus.mp3');
- //flamingoSound = loadSound('assets/flamingo.mp3');
- cowSound = loadSound('assets/cow.mp3');
- schoolSound = loadSound('assets/school.mp3');
+
 }
 
 function setup() {
   // put setup code here
   var cnv = createCanvas(500,500);
   cnv.id("mycanvas");
+
+  horseSound = loadSound('assets/horse.mp3');
+  busSound = loadSound('assets/bus.mp3');
+  //flamingoSound = loadSound('assets/flamingo.mp3');
+  cowSound = loadSound('assets/cow.mp3');
+  schoolSound = loadSound('assets/school.mp3');
+  birdSound = loadSound('assets/bird.mp3');
+  kidSound = loadSound('assets/kid.mp3');
   horseSound.setVolume(0.3);
-  horseSound.play();
+  //horseSound.play();
   busSound.setVolume(0.1);
-  busSound.play();
+  //busSound.play();
   //flamingoSound.setVolume(0.5);
   //flamingoSound.play();
   cowSound.setVolume(0.8);
-  cowSound.play();
-  schoolSound.play();
+//  cowSound.play();
+//  schoolSound.play();
+
 
 
 
@@ -63,14 +69,16 @@ function setup() {
     currentPage = 1;
     farmpage = true;
     streetpage = false;
+
   });
 
   streetButton = createButton("To Street");
   streetButton.position(300,370);
   streetButton.mousePressed(function(){
     currentPage = 2;
-    streetpage = true;
     farmpage = false;
+    streetpage = true;
+
   });
 
   backButton = createButton("Back to Entry");
@@ -79,21 +87,23 @@ function setup() {
     currentPage = 0;
     farmpage = false;
     streetpage = false;
+
   });
 
 // tempX, tempY, tempS, tempC,  tempName
 
 
 
+}
+
 function draw() {
   // put drawing code here
     background(173,216,230);
 
-    if(currentPage == 0){
+  if(currentPage == 0){
     farmButton.show();
     streetButton.show();
     backButton.hide();
-
 
     fill(221,160,221);
     stroke(10);
@@ -110,19 +120,11 @@ function draw() {
     streetButton.hide();
     backButton.show();
 
-
     image(farmap,-220,-10,farmap.width*1.5,farmap.height*1.5);
     image(horse, 300,200,horse.width/10,horse.height/10);
     //image(flamingo,50,350, flamingo.width/8,flamingo.height/8);
     image(cow, 150,370,cow.width/12,cow.height/12);
     image(birdfly, mouseX,40, birdfly.width/9,birdfly.height/9);
-
-    cow.mousePressed (dist(mouseX,mousY,330,210)<15){
-      cowSound.play();
-    }else {
-      cowSound.stop();
-    }
-
 
 
   }else if(currentPage == 2){
@@ -137,7 +139,7 @@ function draw() {
 
   }
 
-    if(mouseX > 150 && mouseX < 450){
+    if(mouseX > 190 && mouseX < 450){
       busMove = mouseX;
     }
 
@@ -145,47 +147,72 @@ function draw() {
       kidMove = mouseY;
     }
 
+  //  ellipse(130,320,10,10);
+
+  //  ellipse(200,kidMove,10,10);
+
+  //  ellipse(190,400,10,10);
+
+  //  ellipse(330,220,10,10);
+
+  //  ellipse(busMove,300,10,10);
+
   }
 
+
+
 function mousePressed(){
-  if(farmpage == true){
-       if(dist(mouseX,mouseY,330,210)< 15){
-      console.log("horse");
-      horseSound.play();
+
+
+  if(currentPage == 1){
+      if(dist(mouseX,mouseY,330,220)< 50){
+        console.log("horse");
+        horseSound.play();
       }else{
-       horseSound.stop();
+        horseSound.stop();
       }
 
 
-      if(dist(mouseX,mouseY,170,350) < 15){
-      console.log("cow");
-      cowSound.play();
+    if(dist(mouseX,mouseY,190,400) < 20){
+       console.log("cow");
+       cowSound.play();
      }else{
        cowSound.stop();
      }
 
 
-  }else if(streetpage == true){
-    if(dist(mouseX,mouseY,busMove,370) < 15){
+  }else if(currentPage == 2){
+    if(dist(mouseX,mouseY,busMove,320) < 30
+  ){
       console.log("schoolbus");
       busSound.play();
     }else{
       busSound.stop();
     }
 
-   if(dist(mouseX,mouseY,80,260) < 30){
+   if(dist(mouseX,mouseY,130,320) < 50){
     console.log("school");
     schoolSound.play();
    }else{
     schoolSound.stop();
   }
 
+  if(dist(mouseX,mouseY,200,kidMove) < 50){
+     console.log("kid");
+     kidSound.play();
+   }else{
+     kidSound.stop();
+   }
+
   }
 
+  //busSound.play();
+
+
 
 }
 
-}
+
 
 
 

@@ -3,7 +3,7 @@
 <h1> This is my project "Sound Town"</h1>
 
 
-[My site text](https://github.com/Yushannnn/CIM640-Intro-to-Coding/blob/master/Homeworks/Midterms/sketch.js)
+[My site text](https://yushannnn.github.io/CIM640-Intro-to-Coding/Homeworks/Final/sketch.js)
 
 [My midterm project]()
 
